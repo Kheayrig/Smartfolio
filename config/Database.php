@@ -8,16 +8,20 @@ class Database extends \mysqli
     }
 }
 class Auth {
-    public static function Register($firstName, $lastName, $email, $password, $phone):void {
+    public static function Register($firstName, $lastName, $patronymic, $email, $password, $phone, $gender, $birthdate):void {
         $db = new Database();
-        if(self::getHashByEmail($email) !== NULL) {
+        if(self::getHashByEmail($email) === NULL) {
             throw new \Exception("Уже зарегистрирован");
         }
-        $hash = password_hash($password,PASSWORD_BCRYPT);
-        $prep = $db->prepare("INSERT INTO users (firstName, lastName, email, hash, phone) VALUES(?,?,?,?)");
-        $prep->bind_param('sssssi', $firstName, $lastName, $email, $hash, $phone, $rank);
+        $salt = self::generateSalt();
+        $hash = password_hash($password . $salt,PASSWORD_BCRYPT);
+        $prep = $db->prepare("INSERT INTO users (firstName, lastName, patronymic, email, hash, phone,gender,birthdate) VALUES(?,?,?,?,?,?,?,?)");
+        $prep->bind_param('ssssss', $firstName, $lastName, $patronymic, $email, $hash, $phone, $gender, $birthdate);
         $prep->execute();
         $prep->close();
+    }
+    private static function generateSalt(): string{
+        return bin2hex(random_bytes(8));
     }
     private static function getHashByEmail($email): array | NULL {
         $db = new Database();
@@ -82,26 +86,5 @@ class Auth {
         }
         return null;
     }
-}
-class Portfolio
-{
-    public static function Create($email, $smt,$smth) {
-        $db = new Database();
-        $prep = $db->prepare("INSERT INTO portfolio (email, lastName, email, hash, phone) VALUES(?,?,?,?)");
-        $prep->bind_param('sssssi', $email, $lastName, $email, $hash, $phone, $rank);
-        $prep->execute();
-        $prep->close();
-    }
-    public static function Get($email): array | NULL  {
-        $db = new Database();
-        $prep = $db->prepare("SELECT * FROM fortfolio WHERE email = ?");
-        $prep->bind_param('s', $email);
-        $prep->execute();
-        $res = $prep->get_result();
-        $prep->close();
-        if($res === false || $res->num_rows != 1) return NULL;
-        return $res->fetch_assoc();
-    }
-
 }
 

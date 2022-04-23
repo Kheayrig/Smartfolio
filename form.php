@@ -1,26 +1,72 @@
 <?php
 require_once "./config/Database.php";
+require_once "./config/Portfolio.php";
 $in_btn = "";
+$notEnough = false;
 if(Auth::isLogged()) {
     $in_btn = true;
 } else {
     $in_btn = false;
+    header("Location: auth.php");
+    exit;
 }
+    if(isset($_POST['submit'])) {
+        if(isset($_POST['fname']) && isset($_POST['lname']) && isset($_POST['mname']) && isset($_POST['city']) && isset($_POST['bdate'])
+            && isset($_POST['gender']) && isset($_POST['img']) && isset($_POST['email']) && isset($_POST['phone']) && isset($_POST['tgname'])
+            && isset($_POST['jname']) && isset($_POST['salary']) && isset($_POST['skills']) && isset($_POST['prog'])
+            && isset($_POST['exp']) && isset($_POST['edulevel']) && isset($_POST['university'])
+            && isset($_POST['faculty']) && isset($_POST['spec']) && isset($_POST['grad']) && isset($_POST['about']) && isset($_POST['achieve'])
+            && isset($_POST['result'])) {
+                $firstName = $_POST['fname'];
+                $lastName = $_POST['lname'];
+                $patronymic = $_POST['mname'];
+                $email = $_POST['email'];
+                $birthdate = $_POST['bdate'];
+                $gender = $_POST['jname'];
+                $phone = $_POST['phone'];
+                $tg_name = $_POST['tgname'];
+                $img = $_FILES['img'] ?? null;
+                if($img) {
+                    $img_name = $img['tmp_name'];
+                    move_uploaded_file($img['tmp_name'], "./uploads/$email/$img_name");
+                }
+                $city = $_POST['city'];
+                //"Место работы: " . $_POST['workplace'] . ", Компания: " . $_POST['company'] . "Должность: " . $_POST['post'];
+                $profession = "Нет";
+                $salary = $_POST['salary'];
+                $skills = $_POST['skills'];
+                $programs = $_POST['prog'];
+                $exp = $_POST['exp'];
+                $work_place = "no";
+                $education = "Уровень: " . $_POST['edulevel'] . ", Университет: " . $_POST['university'] . ", Факультет: " . $_POST['faculty'] . ", Специализация: " . $_POST['spec'] . ",Год выпуска: " . $_POST['faculty'];
+                $about = $_POST['about'];
+                $achievements = $_POST['achieve'] . " " . $_POST['result'];
+                Portfolio::create($email,$firstName,$lastName,$patronymic,$city,$birthdate,$gender,$phone,$tg_name,$img,$profession,$salary,$skills,$programs,$exp,$work_place,$education,$about,$achievements);
+                //header("Location: index.php");exit;
+        }
+        else {
+            $notEnough = true;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="./images/logo.png" type="image/png">
-    <title>Smartfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Smartfolio</title>
+  <link rel="shortcut icon" href="./images/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./css/form.css">
 
 </head>
+
 <body>
 
 <header class="header">
@@ -79,13 +125,13 @@ if(Auth::isLogged()) {
 
                 <ul class="menu__list">
                     <li class="menu__list-item">
-                        <a class="menu__list-link link-main" href="index.php">Главная</a>
+                        <a class="menu__list-link" href="index.php">Главная</a>
                     </li>
                     <li class="menu__list-item">
                         <a class="menu__list-link" href="./example.php">Примеры</a>
                     </li>
                     <li class="menu__list-item">
-                        <a class="menu__list-link" href="create-choose.php">Создать резюме</a>
+                        <a class="menu__list-link link-main" href="create-choose.php">Создать резюме</a>
                     </li>
                     <li class="menu__list-item">
                         <a class="menu__list-link" href="./my.php">Мои резюме</a>
@@ -107,26 +153,284 @@ if(Auth::isLogged()) {
     </div>
 </header>
 
-<section class="top">
-    <div class="container top__cont">
-        <div class="top__inner">
-
-            <h1 class="top__title title">
-                Удобный сервис для создания, хранения и предоставления резюме
-            </h1>
-            <p class="top__text">
-                Быстро, удобно и просто!
-            </p>
-            <div class="create-choose-btn">
-                <a href="create-choose.php" class="top__btn">Создать</a>
+  <section class="top">
+    <div class="container">
+      <div class="cv-title">
+        <h2>Ваше резюме</h2>
+      </div>
+      <form class="cv-form" action="" method="post">
+        <div class="personal-info">
+          <fieldset>
+            <legend class="personal-info__title">Личная информация <?php if($notEnough) echo "Заполните все поля!"?></legend>
+            <div class="input-group">
+              <label for="fname">Имя</label>
+              <input class="input-field" placeholder="Никита" type="text" id="fname" name="fname">
             </div>
 
-            <!-- <a href="#" class="top__link">Watch the video</a> -->
+            <div class="input-group">
+              <label for="lname">Фамилия</label>
+              <input class="input-field" placeholder="Баранов" type="text" id="lname" name="lname">
+            </div>
+
+            <div class="input-group">
+              <label for="mname">Отчество</label>
+              <input class="input-field" placeholder="Владимирович" type="text" id="mname" name="mname">
+            </div>
+
+            <div class="input-group">
+              <label for="city">Город проживания</label>
+              <input class="input-field" placeholder="Ярославль" type="text" id="city" name="city">
+            </div>
+
+
+            <div class="input-group">
+              <label for="bdate">Дата рождения</label>
+              <input class="input-field" type="date" id="bdate" name="bdate">
+            </div>
+
+
+            <div class="input-group gender-group">
+              <label for="">Пол</label>
+              <div class="gender-select">
+                <div>
+                  <input type="radio" checked="checked" id="male" name="gender" value="male">
+                  <label for="male">Мужской</label>
+                </div>
+                <div>
+                  <input type="radio" id="female" name="gender" value="female">
+                  <label for="female">Женский</label>
+                </div>
+
+              </div>
+            </div>
+
+
+
+            <div class="input-group photo-upload">
+              <label for="myImage">Фото</label>
+              <input class="photo-upload" type="file" name="img" accept="image/png, image/gif, image/jpeg" />
+            </div>
+
+          </fieldset>
+
         </div>
-        <!-- <div class="top__image">
-          <img src="/images/vector-image.jpg" height="550px" width="550px" alt="">
-        </div> -->
+
+        <div class="contact-info">
+          <fieldset>
+            <legend class="personal-info__title">Контактная информация</legend>
+            <div class="input-group">
+              <label for="email">Почта</label>
+              <input class="input-field" placeholder="nick@gmail.com" type="text" id="email" name="email">
+            </div>
+
+            <div class="input-group">
+              <label for="phone">Телефон</label>
+              <input class="input-field" placeholder="+7(999)555-33-33" type="text" id="phone" name="phone">
+            </div>
+
+            <div class="input-group">
+              <label for="tgname">Ник в телеграмме</label>
+              <input class="input-field" placeholder="@nick8ram" type="text" id="tgname" name="tgname">
+            </div>
+        </div>
+
+        <div class="job-info">
+          <fieldset>
+            <legend class="personal-info__title">Информация о должности</legend>
+            <div class="input-group">
+              <label for="jname">Название должности</label>
+              <input class="input-field" placeholder="UX/UI Дизайнер" type="text" id="jname" name="jname">
+            </div>
+
+            <!-- ЗП -->
+            <div class="input-group">
+              <label for="salary">Зарплата</label>
+              <input class="input-field" placeholder="35 000" type="number" id="salary" name="salary">
+              <p><select class="money-select">
+                <option value="1">руб</option>
+                <option value="2">тенге</option>
+                <option value="3">доллары США</option>
+              </select></p>
+            </div>
+
+            <!-- Ключевые навыки -->
+            <div class="input-group">
+              <label for="skills">Ключевые навыки</label>
+              <input class="input-field" placeholder="Навык, например, «Прототипирование»" type="text" id="skills" name="skills">
+            </div>
+
+            <!-- Программы -->
+            <div class="input-group">
+              <label for="prog">Программы</label>
+              <input class="input-field" placeholder="Программа, например, «Figma»" type="prog" id="prog" name="prog">
+            </div>
+
+            <div class="input-group gender-group exp-group">
+              <label for="">Опыт работы</label>
+              <div class="gender-select">
+                <div>
+                  <input type="radio" checked="checked" id="yesexp" name="exp" value="true">
+                  <label for="yesexp">Есть опыт работы</label>
+                </div>
+                <div>
+                  <input type="radio" id="noexp" name="exp" value="false">
+                  <label for="noexp">Нет опыта работы</label>
+                </div>
+
+              </div>
+            </div>
+          </fieldset>
+
+        </div>
+
+
+        <!-- ОПЫТ РАБОТЫ -->
+        <div class="exp-info">
+          <fieldset>
+            <legend class="personal-info__title">Опыт работы</legend>
+            <!-- "добавить места работы" -->
+            <div class="input-group">
+              <label for="workplace">Места работы</label>
+              <button type="button" id="workplace" name="workplace">Добавить место работы</button>
+            </div>
+            <!-- после добавть место работы  -->
+            <div class="accordion-panel">
+              <div class="input-group">
+                <label for="workstart">Начало работы</label>
+                <p><select class="workstart-select" name="start-month">
+                  <option selected="selected" value="0">Месяц</option>
+                  <option value="1">Январь</option>
+                  <option value="2">Февраль</option>
+                  <option value="3">Март</option>
+                  <option value="4">Апрель</option>
+                  <option value="5">Май</option>
+                  <option value="6">Июнь</option>
+                  <option value="7">Июль</option>
+                  <option value="8">Август</option>
+                  <option value="9">Сентябрь</option>
+                  <option value="10">Октябрь</option>
+                  <option value="11">Ноябрь</option>
+                  <option value="12">Декабрь</option>
+                </select></p>
+                <input class="start-year" placeholder="Год" type="number">
+              </div>
+  
+              <div class="input-group">
+                <label for="workend">Окончание работы</label>
+                <p><select class="workend-select" name="end-month">
+                  <option selected="selected" value="0">Месяц</option>
+                  <option value="1">Январь</option>
+                  <option value="2">Февраль</option>
+                  <option value="3">Март</option>
+                  <option value="4">Апрель</option>
+                  <option value="5">Май</option>
+                  <option value="6">Июнь</option>
+                  <option value="7">Июль</option>
+                  <option value="8">Август</option>
+                  <option value="9">Сентябрь</option>
+                  <option value="10">Октябрь</option>
+                  <option value="11">Ноябрь</option>
+                  <option value="12">Декабрь</option>
+                </select></p>
+                <input class="end-year" placeholder="Год" type="number">
+              </div>
+  
+              <div class="input-group">
+                <label for="organization">Организация</label>
+                <input class="input-field" type="organization" id="organization" name="company">
+              </div>
+  
+              <div class="input-group">
+                <label for="post">Должность</label>
+                <input class="input-field" type="post" id="post" name="post">
+              </div>
+            </div>
+            
+        </div>
+
+        <div class="about-info">
+          <fieldset>
+            <legend class="personal-info__title">Образование</legend>
+
+            <div class="input-group">
+              <label for="edulevel">уровень</label>
+              <input class="input-field" type="edulevel" id="edulevel" name="edulevel">
+            </div>
+
+            <div class="input-group">
+              <label for="university">Учебное заведение</label>
+              <input class="input-field" type="text" id="university" name="university">
+            </div>
+
+            <div class="input-group">
+              <label for="faculty">факультет</label>
+              <input class="input-field" type="text" id="faculty" name="faculty">
+            </div>
+
+            <div class="input-group">
+              <label for="spec">Специализация</label>
+              <input class="input-field" type="text" id="spec" name="spec">
+            </div>
+
+            <div class="input-group">
+              <label for="graduation">Год окончания</label>
+              <div class="graduation-end">
+                <input placeholder="Год" class="input-field" type="number" id="graduation" name="grad">
+                <!-- <div class="graduation-parargraph">
+                  <p>Если учитесь в настоящее время — укажите год предполагаемого окончания</p>
+                </div> -->
+              </div>
+            </div>
+        </div>
+
+        <div class="about-info">
+          <fieldset>
+            <legend class="personal-info__title">Расскажите о себе</legend>
+
+            <div class="input-group about-group">
+              <label class="about-label" for="about">О себе </label>
+              <input class="input-field" type="text" id="about" name="about">
+            </div>
+
+            <div class="input-group achieve-group">
+              <label for="achieve">Достижения</label>
+              <div class="achieve-fields">
+                <input class="input-field" type="text" id="achieve" name="achieve">
+                <input class="input-field" type="text" id="result" name="result">
+              </div>
+            </div>
+            <div class="another-achievement">
+              <a href="">добавить еще одно достижение</a>
+            </div>
+        </div>
+
+        <div class="another-info">
+          <div class="personal-info__title">
+            <h2>Другая важная информация</h2>
+          </div>
+          <div>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+            <a href=""></a>
+          </div>
+        </div>
+<div class="submit-btn">
+  <input name="submit" type="submit" value="Сохранить и перейти далее">
+</div>
+      </form>
     </div>
-</section>
+
+  </section>
+
+
+
 </body>
+
 </html>

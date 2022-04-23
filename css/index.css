@@ -177,6 +177,12 @@ button {
     display: flex;
     align-items: center;
 }
+.top {
+    background-image: url(../images/main-page__canva.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
 a {
     text-decoration: none;
 }

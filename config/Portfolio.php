@@ -4,13 +4,8 @@ class Portfolio
 {
     public static function create($email, $firstName, $lastName, $patronymic, $city, $birtdate, $gender, $phone, $tg_nick, $img, $profession, $salary, $skills, $programs, $exp, $work_place, $education, $about, $achievements) {
         $db = new Database();
-        if(count($skills) > 0) $skills_b = implode('$|%',$skills);
-        if(count($education) > 0) $education_b = implode('$|%',$education);
-        if(count($programs) > 0) $programs_b = implode('$|%',$programs);
-        if(count($work_place) > 0) $work_place_b = implode('$|%',$work_place);
-        if(count($achievements) > 0) $achievements_b = implode('$|%',$achievements);
-        $prep = $db->prepare("INSERT INTO portfolio (email, firstName, lastName, patronymic, city, birtdate, gender, phone, tg_nick, img, profession, salary, skills, programs, exp, work_place, education, about, achievements) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        $prep->bind_param('sssssssssssissssss', $email, $firstName, $lastName, $patronymic, $city, $birtdate, $gender, $phone, $tg_nick, $img, $profession, $salary, $skills_b, $programs_b, $exp, $work_place_b, $education_b, $about, $achievements_b);
+        $prep = $db->prepare("INSERT INTO portfolio (email, firstName, lastName, patronymic, city, birthdate, gender, phone, tg_nick, img, profession, salary, skills, programs, exp, work_place, education, about, achievements) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $prep->bind_param('sssssssssssisssssss', $email, $firstName, $lastName, $patronymic, $city, $birtdate, $gender, $phone, $tg_nick, $img, $profession, $salary, $skills, $programs, $exp, $work_place, $education, $about, $achievements);
         $prep->execute();
         $prep->close();
     }
