@@ -1,5 +1,5 @@
 <?php
-require_once "Database.php";
+require_once "./config/Database.php";
 //запрос на авторизацию
 if(isset($_POST['submit'])) {
     $email = $_POST['email'];

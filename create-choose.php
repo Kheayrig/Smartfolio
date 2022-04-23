@@ -1,5 +1,5 @@
 <?php
-require_once "Database.php";
+require_once "./config/Database.php";
 $in_btn = "";
 if(Auth::isLogged()) {
     $in_btn = true;
@@ -95,7 +95,7 @@ if(Auth::isLogged()) {
       <div class="user-nav">
         <?php
                 if($in_btn) {
-                    echo "<a class='user-nav__link' href='./logout.php'>Выйти</a>";
+                    echo "<a class='user-nav__link' href='config/logout.php'>Выйти</a>";
         } else {
         echo "<a class='user-nav__link' href='./auth.php'>Войти</a>";
         }
