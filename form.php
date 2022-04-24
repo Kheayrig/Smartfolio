@@ -38,9 +38,9 @@ if(Auth::isLogged()) {
                 $programs = $_POST['prog'];
                 $exp = $_POST['exp'];
                 $work_place = "no";
-                $education = "Уровень: " . $_POST['edulevel'] . ", Университет: " . $_POST['university'] . ", Факультет: " . $_POST['faculty'] . ", Специализация: " . $_POST['spec'] . ",Год выпуска: " . $_POST['faculty'];
+                $education = "Уровень: " . $_POST['edulevel'] . ", Университет: " . $_POST['university'] . ", Факультет: " . $_POST['faculty'] . ", Специализация: " . $_POST['spec'] . ", Год выпуска: " . $_POST['grad'];
                 $about = $_POST['about'];
-                $achievements = $_POST['achieve'] . " " . $_POST['result'];
+                $achievements = $_POST['achieve'] . "^$" . $_POST['result'];
                 Portfolio::create($email,$firstName,$lastName,$patronymic,$city,$birthdate,$gender,$phone,$tg_name,$img,$profession,$salary,$skills,$programs,$exp,$work_place,$education,$about,$achievements);
                 //header("Location: index.php");exit;
         }

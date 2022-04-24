@@ -1,5 +1,5 @@
 <?php
-require_once "./config/Database.php";
+require_once "Database.php";
 class Portfolio
 {
     public static function create($email, $firstName, $lastName, $patronymic, $city, $birtdate, $gender, $phone, $tg_nick, $img, $profession, $salary, $skills, $programs, $exp, $work_place, $education, $about, $achievements) {
@@ -11,7 +11,7 @@ class Portfolio
     }
     public static function get($email): array | NULL  {
         $db = new Database();
-        $prep = $db->prepare("SELECT * FROM fortfolio WHERE email = ?");
+        $prep = $db->prepare("SELECT * FROM portfolio WHERE email = ?");
         $prep->bind_param('s', $email);
         $prep->execute();
         $res = $prep->get_result();
@@ -21,7 +21,7 @@ class Portfolio
     }
     public static function getByID($id): array | NULL  {
         $db = new Database();
-        $prep = $db->prepare("SELECT * FROM fortfolio WHERE id = ?");
+        $prep = $db->prepare("SELECT * FROM portfolio WHERE id = ?");
         $prep->bind_param('i', $id);
         $prep->execute();
         $res = $prep->get_result();

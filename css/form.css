@@ -1,3 +1,4 @@
+
 *{
     box-sizing: border-box;
 }
@@ -245,20 +246,22 @@ background: #F3F5F8;
     display: flex;
     justify-content: center;
     margin-right: 350px;
+    cursor: pointer;
 }
 .submit-btn > input {
-width: 256px;
-height: 60px;
-width: 256px;
-height: 60px;
-border: 1px solid transparent;
-border-radius: 10px;
-background: #3042E2;
-text-align: center;
-color: #ffffff;
-font-weight: 500;
-font-size: 16px;
-line-height: 19px;
+    width: 256px;
+    height: 60px;
+    width: 256px;
+    height: 60px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: #3042E2;
+    text-align: center;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    cursor: pointer;
 }
 
 #graduation {
