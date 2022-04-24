@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Апр 23 2022 г., 21:12
+-- Время создания: Апр 24 2022 г., 09:18
 -- Версия сервера: 10.4.22-MariaDB
 -- Версия PHP: 8.1.2
 
@@ -116,16 +116,16 @@ CREATE TABLE `portfolio` (
   `gender` varchar(6) DEFAULT NULL,
   `phone` varchar(12) NOT NULL,
   `tg_nick` varchar(35) DEFAULT NULL,
-  `img` varchar(255) NOT NULL,
+  `img` varchar(255) DEFAULT NULL,
   `profession` varchar(100) NOT NULL,
-  `salary` int(11) NOT NULL,
-  `skills` tinyint(1) NOT NULL,
-  `programs` tinyint(1) NOT NULL,
-  `exp` tinyint(1) NOT NULL,
+  `salary` bigint(11) NOT NULL,
+  `skills` text NOT NULL,
+  `programs` text NOT NULL,
+  `exp` text NOT NULL,
   `work_place` varchar(255) DEFAULT NULL,
   `education` text DEFAULT NULL,
   `about` text DEFAULT NULL,
-  `achievements` tinyint(1) DEFAULT NULL,
+  `achievements` text DEFAULT NULL,
   `city` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='portfolio''s list';
 
@@ -158,7 +158,25 @@ INSERT INTO `sessions` (`user_key`, `email`) VALUES
 ('433d85e4ba05343be671822d7bb5dbed79cedcdbe7b7b9a6da2022-04-23 03:16:48', 'chernysheva.v@example.com'),
 ('8b12a5c1e80ad868dbaed5643c797843e3291eecf7022ac8c62022-04-23 03:34:19', 'chernysheva.v@example.com'),
 ('025f955b15c05f4d97eb6d11782ddcfd383fb599755302bdab2022-04-23 03:42:32', 'chernysheva.v@example.com'),
-('6afe7c27ec0bbcf709a343d49e701e6f2162c2cc6d4dfcf1c92022-04-23 04:18:42', 'chernysheva.v@example.com');
+('6afe7c27ec0bbcf709a343d49e701e6f2162c2cc6d4dfcf1c92022-04-23 04:18:42', 'chernysheva.v@example.com'),
+('e918ceb16a443861a9aa52fbbc608a98f3eeb2708e0bbc0c572022-04-23 21:55:06', 'chernysheva.v@example.com'),
+('43adf02fcc1f123c0b2fa25d2dabd9577f07fb1d9c5b4bd8322022-04-23 21:55:42', 'chernysheva.v@example.com'),
+('df6a3367d16425c4aadb1524e9cb3ebe7f2d2221316c38e6022022-04-23 23:31:06', 'chernysheva.v@example.com'),
+('2a82d49076862193f50d96a2cc66667a0e0ecb81cde6a01ef22022-04-24 00:35:25', 'chernysheva.v@example.com'),
+('c1b184e3d1a12dfc547edc758299c8afea575acdb3bb4abc672022-04-24 00:36:40', 'chernysheva.v@example.com'),
+('244834593db89c8374493c4c7535f130d7bb7cf62268f049122022-04-24 05:37:18', 'chernysheva.v@example.com'),
+('ffb18b3f6ac1495d2fb048bc1ceef34802330fa59ed7142a132022-04-24 06:01:25', 'chernysheva.v@example.com'),
+('d737f101aeedbb7dced5dcb18b6268dbb937e921af495365702022-04-24 06:34:27', 'chernysheva.v@example.com'),
+('392f7100f6fd58ba67fc17fcf07c2e5ad84a3417711ea3c3062022-04-24 06:34:42', 'chernysheva.v@example.com'),
+('caf1c1d38396df62897c69a5e6580e9b299e245c89a5a21e4c2022-04-24 06:38:19', 'potapova.v@example.com'),
+('1523d03d06b9c2e401498170c02e6cc25ea9d129673e56aad62022-04-24 06:59:09', 'potapova.v@example.com'),
+('e247a6b6e2d41bc6872b0825069c55418d96e76e73f0f5146b2022-04-24 07:00:21', 'potapova.v@example.com'),
+('c9a8c253abf8d3d462b589fc8ee18a76cbc736eb97853e41822022-04-24 07:23:44', 'potapova.v@example.com'),
+('f038cbfab9dc0a7322c1c2b79a31cf77709b8f7a046a4146de2022-04-24 07:24:37', 'potapova.v@example.com'),
+('01d171e73f188f94afce4ade33bda6c17e076cf3e24ccf516f2022-04-24 07:25:30', 'potapova.v@example.com'),
+('d74df3af204dffb67c2df2290470aa75156dda2ab4eb91a3722022-04-24 07:40:39', 'potapova.v@example.com'),
+('9e7cd5cb83b52de10223e239d50d7ea15cae999ed055d172422022-04-24 07:41:19', 'potapova.v@example.com'),
+('a8df9a11be9dbfcbf591203c251f365dd2ac677d554556e94c2022-04-24 07:45:59', 'potapova.v@example.com');
 
 -- --------------------------------------------------------
 
@@ -268,6 +286,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
+
+--
+-- AUTO_INCREMENT для таблицы `portfolio`
+--
+ALTER TABLE `portfolio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
