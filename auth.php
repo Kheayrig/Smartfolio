@@ -29,6 +29,7 @@ if(Auth::isLogged()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smartfolio</title>
     <link rel="shortcut icon" href="./images/logo.png" type="image/png">
+    <link rel="shortcut icon" href="./images/logo.png" type="image/png">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 

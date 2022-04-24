@@ -86,5 +86,10 @@ class Auth {
         }
         return null;
     }
+    public static function returnUserByEmail($email) {
+        $user = self::getUserByEmail($email);
+        $user['hash'] = null;
+        return $user;
+    }
 }
 

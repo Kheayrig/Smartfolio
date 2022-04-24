@@ -13,8 +13,28 @@ $email = Auth::getEmailByKey($_COOKIE['key']);
 
 if($email === null) {header("Location: auth.php");exit;}
 $user = Portfolio::get($email);
-$ed = explode(', ', $user['education']);
-$ach = explode('^$', $user['achievements']);
+$check = $user;
+if($user === null) {
+    $user = Auth::returnUserByEmail($email);
+    $user['tg_nick'] = "";
+    $user['profession'] = "";
+    $user['salary'] = 20000;
+    $user['skills'] = "";
+    $user['programs'] = "";
+    $user['exp'] = "";
+    $user['work_place'] = "";
+    $user['education'] = "";
+    $user['about'] = "";
+    $user['achievements'] = "";
+    $user['city'] = "";
+    $ach = ["",""];
+    $ed = ["","","","",""];
+}
+else {
+    $ed = explode(', ', $user['education']);
+    $ach = explode('^$', $user['achievements']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +44,8 @@ $ach = explode('^$', $user['achievements']);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="./images/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300&display=swap"
@@ -155,11 +176,14 @@ $ach = explode('^$', $user['achievements']);
         </div>
         <div class="inform-body__links">
             <?php
-            $skills = explode(', ', $user['skills']);
-            foreach ($skills as $skill){
+            if($user['skills'] !== "") {
+                $skills = explode(', ', $user['skills']);
+                foreach ($skills as $skill){
 
-                echo '<a href="#">' . $skill . '</a>';
+                    echo '<a href="#">' . $skill . '</a>';
+                }
             }
+
           ?>
         </div>
         <hr class="hor-line" align="center" width="500" size="4" color="#EDEDED" />
@@ -183,6 +207,7 @@ $ach = explode('^$', $user['achievements']);
           <li><a href="">Видеоролик</a></li>
         </ul>
       </nav>
+        <?php if($check !== null){ ?>
 <div class="main-columns">
   <div class="left-column">
     <div class="blok-inf">
@@ -265,6 +290,7 @@ $ach = explode('^$', $user['achievements']);
          </p>
     </div>
   </div>
+    <?php } ?>
 </div>
 
     </div>
