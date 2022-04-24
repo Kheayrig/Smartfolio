@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * подключение к базе данных
+ */
 class Database
 {
     private $host = "127.0.0.1";
@@ -7,12 +10,8 @@ class Database
     private $username = "root";
     private $password = "";
     public $conn;
-    public function __construct($host,$db_name,$username,$password)
+    public function __construct()
     {
-        $this->host = $host;
-        $this->db_name = $db_name;
-        $this->password = $password;
-        $this->username = $username;
-        $this->conn = parent::__construct($host, $username, $password, $db_name);
+        $this->conn = parent::__construct($this->host, $this->username, $this->password, $this->db_name);
     }
 }
